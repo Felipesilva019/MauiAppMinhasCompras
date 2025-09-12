@@ -30,5 +30,8 @@ namespace MauiAppMinhasCompras.Models
 
         // Novo campo: Data de cadastro/compra
         public DateTime DataCadastro { get; set; }
+
+        // ✅ Novo campo: Categoria do produto
+        public string Categoria { get; set; } // Ex: Alimentos, Higiene, Limpeza
     }
 }

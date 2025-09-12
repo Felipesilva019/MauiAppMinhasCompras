@@ -1,27 +1,44 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sys="clr-namespace:System;assembly=netstandard"
              x:Class="MauiAppMinhasCompras.Views.NovoProduto"
              Title="Novo Produto">
 
-
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Salvar" Clicked="ToolbarItem_Clicked"/>
-
-
     </ContentPage.ToolbarItems>
-    
-    
-    
+
     <VerticalStackLayout Spacing="10" Padding="10">
+
+        <!-- Descrição -->
         <Label Text="Descrição do Produto:"/>
         <Entry x:Name="txt_descricao"/>
 
+        <!-- Quantidade -->
         <Label Text="Quantidade:"/>
-            <Entry x:Name="txt_quantidade" Keyboard="Numeric"/>
-            <Label Text="Preço Unitário"/>
-           <Entry x:Name="txt_preco" Keyboard="Numeric"/>
+        <Entry x:Name="txt_quantidade" Keyboard="Numeric"/>
 
+        <!-- Preço -->
+        <Label Text="Preço Unitário"/>
+        <Entry x:Name="txt_preco" Keyboard="Numeric"/>
+
+        <!-- Categoria -->
+        <Label Text="Categoria:"/>
+        <Picker x:Name="picker_categoria" Title="Selecione a categoria">
+            <Picker.Items>
+                <x:String>Alimentos</x:String>
+                <x:String>Higiene</x:String>
+                <x:String>Limpeza</x:String>
+                <x:String>Outros</x:String>
+            </Picker.Items>
+        </Picker>
+
+        <!-- Data de Compra -->
+        <Label Text="Data de Compra:"/>
+        <DatePicker x:Name="dp_dataCompra"
+                    Date="{x:Static sys:DateTime.Now}"
+                    MaximumDate="{x:Static sys:DateTime.Now}"/>
 
     </VerticalStackLayout>
 </ContentPage>

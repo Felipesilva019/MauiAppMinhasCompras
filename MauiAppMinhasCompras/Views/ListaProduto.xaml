@@ -6,7 +6,7 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Somar" Clicked="ToolbarItem_Clicked_1"/>
         <ToolbarItem Text="Adicionar" Clicked="ToolbarItem_Clicked"/>
-        <!-- Novo botão para abrir Relatório -->
+        <!-- ✅ Novo botão para abrir Relatório -->
         <ToolbarItem Text="Relatório" Clicked="ToolbarItem_Relatorio_Clicked"/>
     </ContentPage.ToolbarItems>
 
@@ -20,6 +20,7 @@
 
     <!-- Grid com duas linhas: SearchBar e ListView -->
     <Grid RowDefinitions="Auto, *" Padding="10">
+
         <!-- Linha 0: SearchBar -->
         <SearchBar x:Name="txt_search"
                    Margin="-15,0,0,0"
@@ -34,15 +35,16 @@
                       Refreshing="lst_produtos_Refreshing"
                       ItemSelected="lst_produtos_ItemSelected">
                 <ListView.Header>
-                    <Grid ColumnDefinitions="30, 100, 80, 50, 90, 120"
+                    <!-- ✅ Adicionei uma coluna a mais para Categoria -->
+                    <Grid ColumnDefinitions="30, 100, 80, 50, 90, 120, 120"
                           BackgroundColor="{StaticResource Gray100 }">
                         <Label Grid.Column="0" Text="ID" Padding="5" FontAttributes="Bold"/>
                         <Label Grid.Column="1" Text="Descrição" FontAttributes="Bold"/>
                         <Label Grid.Column="2" Text="Preço" FontAttributes="Bold"/>
                         <Label Grid.Column="3" Text="Qnt" FontAttributes="Bold"/>
                         <Label Grid.Column="4" Text="Total" FontAttributes="Bold"/>
-                        <!-- Nova coluna para Data -->
                         <Label Grid.Column="5" Text="Data Compra" FontAttributes="Bold"/>
+                        <Label Grid.Column="6" Text="Categoria" FontAttributes="Bold"/>
                     </Grid>
                 </ListView.Header>
                 <ListView.ItemTemplate>
@@ -51,14 +53,15 @@
                             <ViewCell.ContextActions>
                                 <MenuItem Text="Remover" Clicked="MenuItem_Clicked"/>
                             </ViewCell.ContextActions>
-                            <Grid ColumnDefinitions="30, 100, 80, 50, 90, 120">
+                            <!-- ✅ Agora com Categoria -->
+                            <Grid ColumnDefinitions="30, 100, 80, 50, 90, 120, 120">
                                 <Label Grid.Column="0" Text="{Binding Id}" Padding="5"/>
                                 <Label Grid.Column="1" Text="{Binding Descricao}"/>
                                 <Label Grid.Column="2" Text="{Binding Preco,StringFormat='{}{0:C}'}"/>
                                 <Label Grid.Column="3" Text="{Binding Quantidade}"/>
                                 <Label Grid.Column="4" Text="{Binding Total,StringFormat='{}{0:C}'}"/>
-                                <!-- Exibe a DataCadastro -->
                                 <Label Grid.Column="5" Text="{Binding DataCadastro, StringFormat='{0:dd/MM/yyyy}'}"/>
+                                <Label Grid.Column="6" Text="{Binding Categoria}"/>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
