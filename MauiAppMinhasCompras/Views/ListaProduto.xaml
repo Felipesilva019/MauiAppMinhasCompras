@@ -18,8 +18,8 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <!-- Grid com duas linhas: SearchBar e ListView -->
-    <Grid RowDefinitions="Auto, *" Padding="10">
+    <!-- Grid com três linhas: SearchBar, Picker e ListView -->
+    <Grid RowDefinitions="Auto, Auto, *" Padding="10">
 
         <!-- Linha 0: SearchBar -->
         <SearchBar x:Name="txt_search"
@@ -28,8 +28,22 @@
                    TextChanged="txt_search_TextChanged"
                    Grid.Row="0"/>
 
-        <!-- Linha 1: Frame com ListView -->
-        <Frame Padding="0" Grid.Row="1">
+        <!-- Linha 1: Picker de Categorias -->
+        <Picker x:Name="pickerCategoria"
+                Title="Selecione uma categoria"
+                SelectedIndexChanged="pickerCategoria_SelectedIndexChanged"
+                Grid.Row="1">
+            <Picker.Items>
+                <x:String>Todos</x:String>
+                <x:String>Alimentos</x:String>
+                <x:String>Bebidas</x:String>
+                <x:String>Limpeza</x:String>
+                <x:String>Higiene</x:String>
+            </Picker.Items>
+        </Picker>
+
+        <!-- Linha 2: Frame com ListView -->
+        <Frame Padding="0" Grid.Row="2">
             <ListView x:Name="lst_produtos"
                       IsPullToRefreshEnabled="True"
                       Refreshing="lst_produtos_Refreshing"

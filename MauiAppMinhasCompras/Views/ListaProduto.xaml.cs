@@ -12,6 +12,18 @@ public partial class ListaProduto : ContentPage
     {
         InitializeComponent();
         lst_produtos.ItemsSource = Lista;
+
+        // Preenche categorias no Picker
+        pickerCategoria.ItemsSource = new List<string>
+        {
+            "Todos",
+            "Alimentos",
+            "Bebidas",
+            "Limpeza",
+            "Higiene",
+            "Outros"
+        };
+        pickerCategoria.SelectedIndex = 0; // Default = Todos
     }
 
     protected async override void OnAppearing()
@@ -26,13 +38,22 @@ public partial class ListaProduto : ContentPage
         }
     }
 
-    private async Task CarregarProdutos(string filtro = "")
+    private async Task CarregarProdutos(string filtro = "", string categoria = "")
     {
         Lista.Clear();
 
         List<Produto> tmp = string.IsNullOrWhiteSpace(filtro)
             ? await App.Db.GetAll()
             : await App.Db.Search(filtro);
+
+        // Aplica filtro de categoria (case-insensitive e sem espaços extras)
+        if (!string.IsNullOrWhiteSpace(categoria) && categoria != "Todos")
+        {
+            tmp = tmp
+                .Where(p => !string.IsNullOrWhiteSpace(p.Categoria) &&
+                            p.Categoria.Trim().ToLower() == categoria.Trim().ToLower())
+                .ToList();
+        }
 
         tmp.ForEach(i => Lista.Add(i));
     }
@@ -63,15 +84,16 @@ public partial class ListaProduto : ContentPage
         }
     }
 
-    // Filtro de pesquisa
+    // Filtro de pesquisa (texto)
     private async void txt_search_TextChanged(object sender, TextChangedEventArgs e)
     {
         try
         {
-            string q = e.NewTextValue;
-            lst_produtos.IsRefreshing = true;
+            string q = e.NewTextValue ?? "";
+            string categoria = pickerCategoria.SelectedItem?.ToString() ?? "";
 
-            await CarregarProdutos(q);
+            lst_produtos.IsRefreshing = true;
+            await CarregarProdutos(q, categoria);
         }
         catch (Exception ex)
         {
@@ -80,6 +102,22 @@ public partial class ListaProduto : ContentPage
         finally
         {
             lst_produtos.IsRefreshing = false;
+        }
+    }
+
+    // Filtro de pesquisa (categoria)
+    private async void pickerCategoria_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            string filtro = txt_search.Text ?? "";
+            string categoria = pickerCategoria.SelectedItem?.ToString() ?? "";
+
+            await CarregarProdutos(filtro, categoria);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("OPS", ex.Message, "OK");
         }
     }
 
@@ -146,7 +184,10 @@ public partial class ListaProduto : ContentPage
     {
         try
         {
-            await CarregarProdutos();
+            string filtro = txt_search.Text ?? "";
+            string categoria = pickerCategoria.SelectedItem?.ToString() ?? "";
+
+            await CarregarProdutos(filtro, categoria);
         }
         catch (Exception ex)
         {
